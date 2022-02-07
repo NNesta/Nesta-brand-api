@@ -1,0 +1,44 @@
+{
+  "type": "module",
+  "name": "learn-express",
+  "version": "1.0.0",
+  "description": "This is an api for portfolio project which gives the API for users, article",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node index.js",
+    "dev": "nodemon --exec npm start",
+    "test": "mocha ./test/**Test.js --timeout 100000 --exit",
+    "coverage": "nyc npm run test"
+  },
+  "keywords": [],
+  "author": "Nestor Ngabonziza",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcrypt-nodejs": "^0.0.3",
+    "express": "^4.17.2",
+    "express-validation": "^3.0.8",
+    "joi": "^13.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.8",
+    "morgan": "^1.10.0",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
+    "yarn": "^1.22.17"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.0",
+    "@babel/core": "^7.17.0",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "dotenv": "^14.3.0",
+    "mocha": "^9.2.0",
+    "nodemon": "^2.0.15",
+    "nyc": "^15.1.0"
+  }
+}
