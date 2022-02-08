@@ -14,17 +14,33 @@ export const app = express();
 
 const options = {
   //Those are the specs of swagger
+  apis : [],
   definition: {
-    openapi: "3.0.0",
+     openapi: '3.0.0',
     info: {
-      title: "Portifolio project API",
-      version: "1.0.0",
+      title: 'Nestor brand portfolio project api',
+      version: '1.0.0',
       description:
-        "API for my project which include the Article API, Message API and User API it have all CRUD operations, authentication and its authorizations",
+        "API for my project which include the Article API, Message API and User API it have all CRUD operations\
+         authentication and its authorizations",
     },
-    servers: [{ url: "http://127.0.0.1:3000/" }]
-  },
-  apis: ["./routes/*.js"]
+    paths: {},
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+    components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+            name: 'bearerAuth',
+            in: 'header'
+          }
+        }}
+        }
 };
 const specs = swaggerJsDoc(options); //passing specs to swagger jsdoc
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs)); //swagger middleware declaration

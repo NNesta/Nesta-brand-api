@@ -15,7 +15,7 @@ export { router as userRoutes };
 // get all users
 /**
  * @swagger
- *   components:
+ * components:
  *    schemas:
  *       User:
  *          type:  object

@@ -41,7 +41,7 @@ const schema = mongoose.Schema({
 
   comments: [
     {
-      commentor: String,
+      commentor: Object,
       message: String,
     },
   ],
