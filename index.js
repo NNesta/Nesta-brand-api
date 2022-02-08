@@ -61,7 +61,7 @@ if (process.env.NODE_ENV ==='production'){
 }
 
 
-mongoose.connect(mongodb+srv://Nestor:<password>@nestorbranddatabase.qsmpp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority, { useNewUrlParser: true }).then(() => {
+mongoose.connect("mongodb+srv://Nestor:<password>@nestorbranddatabase.qsmpp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true }).then(() => {
   app.use(passport.initialize());
   app.use(express.json());
 
