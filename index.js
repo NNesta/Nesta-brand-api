@@ -8,14 +8,16 @@ import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import "./passport-config.js";
 import dotenv from 'dotenv';
+import cors from "cors";
 dotenv.config();
 
 export const app = express();
-
+// app.use(cors)
 const options = {
   //Those are the specs of swagger
-  apis : [],
+  apis : ["./routes/*.js"],
   definition: {
+    
      openapi: '3.0.0',
     info: {
       title: 'Nestor brand portfolio project api',
@@ -24,6 +26,7 @@ const options = {
         "API for my project which include the Article API, Message API and User API it have all CRUD operations\
          authentication and its authorizations",
     },
+    
     paths: {},
     security: [
       {
