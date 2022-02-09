@@ -58,7 +58,7 @@ if (process.env.NODE_ENV ==='test'){
   dbURI = process.env.DATABASE_TEST_URL
 }
 if (process.env.NODE_ENV ==='production'){
-  dbURI = process.env.DATABASE_PROD_URL
+  dbURI = "mongodb+srv://Nesta:Musanze123$@nestordatabase.qsmpp.mongodb.net/nestordatabase?retryWrites=true&w=majority"
 }
 
 
