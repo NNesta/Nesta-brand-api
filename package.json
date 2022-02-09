@@ -7,7 +7,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "nodemon --exec npm start",
-    "test": "nyc --reporter=text mocha --recursive --timeout 100000 --exit"
+    "test": "nyc --reporter=text mocha --timeout 100000 --exit"
   },
   "keywords": [],
   "author": "Nestor Ngabonziza",

@@ -152,8 +152,11 @@ router.get("/message",authenticateToken, isAdmin, async (req, res) => {
       message:req.body.message
       
     });
+    try{
     await message.save();
-    res.send(message);
+    return res.status(200).send(message);}catch{
+      return res.status(400)
+    }
   });
   // updating a Message route
 

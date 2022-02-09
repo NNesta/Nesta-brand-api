@@ -8,10 +8,11 @@ import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import "./passport-config.js";
 import dotenv from 'dotenv';
-import cors from "cors";
+
 dotenv.config();
 
 export const app = express();
+const PORT = process.env.PORT || 3000
 // app.use(cors)
 const options = {
   //Those are the specs of swagger
@@ -61,7 +62,7 @@ if (process.env.NODE_ENV ==='production'){
 }
 
 
-mongoose.connect("mongodb+srv://Nestor:Musanze123$@nestorbranddatabase.qsmpp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true }).then(() => {
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
   app.use(passport.initialize());
   app.use(express.json());
 
@@ -69,8 +70,8 @@ mongoose.connect("mongodb+srv://Nestor:Musanze123$@nestorbranddatabase.qsmpp.mon
 
   app.use("/api", articleRoutes, userRoutes, messageRoutes);
 
- app.listen(3000, () => {
-    console.log("server started");
+ app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
   });
-});
+}).catch(error=>console.log(error))
 
