@@ -21,8 +21,6 @@ jobs:
 env:
   DATABASE_PROD_TEST_URL: ${{ secrets.DATABASE_PROD_TEST_URL }}
   ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
-​
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
