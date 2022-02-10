@@ -37,14 +37,7 @@ const schema = mongoose.Schema({
     type: Date,
     default: () => Date.now(),
   },
-  
-
-  comments: [
-    {
-      commentor: Object,
-      message: String,
-    },
-  ],
+  comments: [],
   likes: { type: Number, default: 0 },
   disLikes: { type: Number, default: 0 },
 });

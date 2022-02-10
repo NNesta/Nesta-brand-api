@@ -287,6 +287,7 @@ router.delete("/user/:id",authenticateToken, isOwnerOrAdmin, async (req, res) =>
 router.post("/login", passport.authenticate("local"), (req, res) => {
   let user = {
     id: req.user._id,
+    name:req.user.name,
     email: req.user.email,
     userStatus: req.user.userStatus,
   };

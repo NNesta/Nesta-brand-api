@@ -127,8 +127,8 @@ router.get("/article/:id", async (req, res) => {
     const article = await Article.findOne({ _id: req.params.id });
 
     res.send(article);
-  } catch {
-    res.status(404).send({ error: "this article id does not exist" });
+  } catch(error) {
+    res.status(404).send(error.message);
   }
 });
 // create an article
@@ -243,6 +243,63 @@ router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
     res.send(error.message);
   }
 });
+// commenting on an article route
+
+/**
+ * @swagger
+ * /api/article/comment/{id}:
+ *  patch:
+ *   summary: Commenting on the article by id
+ *   tags: [Article]
+ *   parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *           type: string
+ *        required: true
+ *        description: article Id
+ *   requestBody:
+ *         type: object
+ *         required: true
+ *         content:
+ *            application/json:
+ *                  schema:
+ *                     type: object
+ *                     required:
+ *                        - comment
+ *                     properties:
+ *                         comment:
+ *                            type: String
+ *                            description: The comment on the article       
+ *                 
+ *   responses:
+ *       200:
+ *         description: The article was successfully commented on
+ *         
+ *       404:
+ *         description: The article with that id was not found
+ *       500:
+ *         description: Server Error
+ */
+router.patch("/article/comment/:id", authenticateToken, async (req, res) => {
+  if(!req.body.comment){
+    return res.send("Enter The comment");
+  }
+  const comment = {
+    "commentor":req.user,
+    "comments": req.body.comment,
+    "created": Date.now()
+  }
+  try {
+    const article = await Article.findById(req.params.id);
+    article.comments.push(comment);
+    article.save()
+    res.json(article);
+  } catch (error) {
+    res.status(400);
+    res.send(error.message);
+  }
+});
 // Deleting an article route
 
 /**
@@ -272,7 +329,7 @@ router.delete("/article/:id", authenticateToken, isAuthor, async (req, res) => {
   try {
     await Article.deleteOne({ _id: req.params.id });
     res.status(204).send();
-  } catch {
-    res.status(404).send({ error: "That post is not available " });
+  } catch(error) {
+    res.status(404).send(error.message);
   }
 });

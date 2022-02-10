@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     minlength: 4,
+    maxlength:50,
     unique: true,
   },
   location: { longitude: Number, latitude: Number },

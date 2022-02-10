@@ -7,19 +7,21 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "nodemon --exec npm start",
-    "test": "nyc --reporter=text mocha --timeout 100000 --exit"
+    "test": "nyc --reporter=text --all mocha --timeout 1000000 --exit"
   },
   "keywords": [],
   "author": "Nestor Ngabonziza",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "coveralls": "^3.1.1",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
     "npm": "6.14",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "sinon": "^13.0.1",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0"
   },
