@@ -29,7 +29,7 @@ if (process.env.NODE_ENV ==='production'){
 
 
 
-mongoose.connect("mongodb+srv://Nesta:Musanze123$@nestordatabase.qsmpp.mongodb.net/test5?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+await mongoose.connect("mongodb+srv://Nesta:Musanze123$@nestordatabase.qsmpp.mongodb.net/test5?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
  app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
   });
