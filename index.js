@@ -31,7 +31,7 @@ if (process.env.NODE_ENVI =='production'){
 
 await mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
  app.listen(PORT, () => {
-    console.log(`server started on port ${PORT}`);
+    //console.log(`server started on port ${PORT}`);
   });
 }).catch(error=>console.log(error))
 // app.use(cors)

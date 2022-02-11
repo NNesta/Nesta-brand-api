@@ -155,7 +155,7 @@ router.post("/user", async (req, res) => {
   });
   try {
     await user.save();
-    console.log(user);
+    //console.log(user);
     res.send(user);
   } catch (error) {
     res.status(400);
@@ -197,26 +197,31 @@ router.post("/user", async (req, res) => {
  *       500:
  *         description: Server Error
  */
-router.patch("/user/:id",authenticateToken, isOwnerOrAdmin, async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (req.body.name) {
-      user.name = req.body.name;
-    }
-    if (req.body.email) {
-      user.email = req.body.email;
-    }
-    if (req.body.password) {
-      user.password = req.body.password;
-    }
+router.patch(
+  "/user/:id",
+  authenticateToken,
+  isOwnerOrAdmin,
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (req.body.name) {
+        user.name = req.body.name;
+      }
+      if (req.body.email) {
+        user.email = req.body.email;
+      }
+      if (req.body.password) {
+        user.password = req.body.password;
+      }
 
-    await user.save();
-    res.json(user);
-  } catch (error) {
-    res.status(400);
-    res.send(error.message);
+      await user.save();
+      res.json(user);
+    } catch (error) {
+      res.status(400);
+      res.send(error.message);
+    }
   }
-});
+);
 
 // Deleting a user route
 
@@ -243,14 +248,19 @@ router.patch("/user/:id",authenticateToken, isOwnerOrAdmin, async (req, res) => 
  *       404:
  *         description: The user with that id was not found
  */
-router.delete("/user/:id",authenticateToken, isOwnerOrAdmin, async (req, res) => {
-  try {
-    await User.deleteOne({ _id: req.params.id });
-    res.status(204).send();
-  } catch {
-    res.status(404).send({ error: "That post is not available " });
+router.delete(
+  "/user/:id",
+  authenticateToken,
+  isOwnerOrAdmin,
+  async (req, res) => {
+    try {
+      await User.deleteOne({ _id: req.params.id });
+      res.status(204).send();
+    } catch {
+      res.status(404).send({ error: "That post is not available " });
+    }
   }
-});
+);
 
 // Log in
 /**
@@ -287,7 +297,7 @@ router.delete("/user/:id",authenticateToken, isOwnerOrAdmin, async (req, res) =>
 router.post("/login", passport.authenticate("local"), (req, res) => {
   let user = {
     id: req.user._id,
-    name:req.user.name,
+    name: req.user.name,
     email: req.user.email,
     userStatus: req.user.userStatus,
   };
@@ -303,7 +313,7 @@ export function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
-    console.log(user);
+    //console.log(user);
     next();
   });
 }
@@ -312,12 +322,12 @@ export function isAuthor(req, res, next) {
   next();
 }
 export function isAdmin(req, res, next) {
-  console.log(req.user);
+  //console.log(req.user);
   if (req.user.userStatus < 2) return res.status(403).send("Unauthorized");
   next();
 }
 export function isOwnerOrAdmin(req, res, next) {
-  if (req.user.userStatus >= 2 || req.user.id == req.params.id) next(); 
+  if (req.user.userStatus >= 2 || req.user.id == req.params.id) next();
   else {
     return res.status(403).send("Unauthorized");
   }
