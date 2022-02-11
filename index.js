@@ -29,7 +29,7 @@ if (process.env.NODE_ENV ==='production'){
 
 
 
-await mongoose.connect(process.env.DATABASE_PROD_TEST_URL, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+await mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
  app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
   });
