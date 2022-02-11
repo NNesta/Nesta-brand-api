@@ -291,7 +291,7 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
     email: req.user.email,
     userStatus: req.user.userStatus,
   };
-  const accessToken = jwt.sign(user, "97427a8a4bf3df58226e18baf48d9fc4bf60b87ee62f678c3c4eb8831ac61f568a12b30267a2a6a45a7601451154f95771d9414fc571c78e24c7ae053fc994b5");
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
   res.status(200).json({ accessToken: accessToken });
 });
 
@@ -300,7 +300,7 @@ export function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == undefined) return res.sendStatus(401);
-  jwt.verify(token, "97427a8a4bf3df58226e18baf48d9fc4bf60b87ee62f678c3c4eb8831ac61f568a12b30267a2a6a45a7601451154f95771d9414fc571c78e24c7ae053fc994b5", (err, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     console.log(user);
