@@ -14,16 +14,16 @@ dotenv.config();
 export const app = express();
 const PORT = process.env.PORT || 3000
 let dbURI;
-if (process.env.NODE_ENV ==='development'){
+if (process.env.NODE_ENVI =='development'){
   dbURI = process.env.DATABASE_DEV_URL
 }
-if (process.env.NODE_ENV ==='testlocal'){
+if (process.env.NODE_ENVI =='testlocal'){
   dbURI = process.env.DATABASE_TEST_URL
 }
-if (process.env.NODE_ENV ==='test'){
+if (process.env.NODE_ENVI =='test'){
   dbURI = process.env.DATABASE_PROD_TEST_URL
 }
-if (process.env.NODE_ENV ==='production'){
+if (process.env.NODE_ENVI =='production'){
   dbURI = process.env.DATABASE_PROD_URL
 }
 
