@@ -7,7 +7,9 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "nodemon --exec npm start",
-    "test": "nyc --reporter=text --all mocha --timeout 1000000 --exit"
+    "test": "nyc --reporter=text --all mocha --timeout 1000000 --exit",
+    "test:coverage": "npm test -- --coverage",
+    "test:badges": "npm run test:coverage  && jest-coverage-badges"
   },
   "keywords": [],
   "author": "Nestor Ngabonziza",
@@ -16,6 +18,7 @@
     "bcrypt": "^5.0.1",
     "coveralls": "^3.1.1",
     "express": "^4.17.2",
+    "jest-coverage-badges": "^1.1.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
     "npm": "6.14",
@@ -37,5 +40,12 @@
     "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
     "nyc": "^15.1.0"
+  },
+  "jest": {
+    "coverageReporters": [
+      "json-summary", 
+      "text",
+      "lcov"
+    ]
   }
 }

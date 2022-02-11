@@ -11,7 +11,7 @@ on:
 env:
   DATABASE_PROD_TEST_URL: ${{ secrets.DATABASE_PROD_TEST_URL }}
   ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
-  NODE_ENVI: ${{ secrets.NODE_ENVI }}
+  NODE_ENV: ${{ secrets.NODE_ENV }}
 jobs:
   build:
 
