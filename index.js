@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 import {articleRoutes} from "./routes/articleRoute.js";
 import {userRoutes} from "./routes/userRoute.js";
 import {messageRoutes} from "./routes/messageRoute.js";
+import {commentRoutes} from "./routes/commentRoute.js";
+import {likeRoutes} from "./routes/likeRoute.js";
 import passport from "passport";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import "./passport-config.js";
 import dotenv from 'dotenv';
+import cors from "cors";
+
 
 dotenv.config();
 
@@ -31,7 +35,7 @@ if (process.env.NODE_ENV =='production'){
 
 await mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
  app.listen(PORT, () => {
-    //console.log(`server started on port ${PORT}`);
+    console.log(`server started on port ${PORT}`);
   });
 }).catch(error=>console.log(error))
 // app.use(cors)
@@ -70,7 +74,11 @@ const options = {
 const specs = swaggerJsDoc(options); //passing specs to swagger jsdoc
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs)); //swagger middleware declaration
 
-
+app.use(cors(
+  {
+    origin:"*"
+  }
+))
 
 
 app.use(passport.initialize());
@@ -78,4 +86,4 @@ app.use(passport.initialize());
 
   // app.use(passport.session())
 
-  app.use("/api", articleRoutes, userRoutes, messageRoutes);
+  app.use("/api", articleRoutes, userRoutes, messageRoutes, commentRoutes, likeRoutes);

@@ -281,25 +281,25 @@ router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
  *       500:
  *         description: Server Error
  */
-router.patch("/article/comment/:id", authenticateToken, async (req, res) => {
-  if(!req.body.comment){
-    return res.send("Enter The comment");
-  }
-  const comment = {
-    "commentor":req.user,
-    "comments": req.body.comment,
-    "created": Date.now()
-  }
-  try {
-    const article = await Article.findById(req.params.id);
-    article.comments.push(comment);
-    article.save()
-    res.json(article);
-  } catch (error) {
-    res.status(400);
-    res.send(error.message);
-  }
-});
+// router.patch("/article/comment/:id", authenticateToken, async (req, res) => {
+//   if(!req.body.comment){
+//     return res.send("Enter The comment");
+//   }
+//   const comment = {
+//     "commentor":req.user,
+//     "comments": req.body.comment,
+//     "created": Date.now()
+//   }
+//   try {
+//     const article = await Article.findById(req.params.id);
+//     article.comments.push(comment);
+//     article.save()
+//     res.json(article);
+//   } catch (error) {
+//     res.status(400);
+//     res.send(error.message);
+//   }
+// });
 // Deleting an article route
 
 /**

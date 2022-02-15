@@ -4,3 +4,6 @@ config
 node_modules
 coverage
 .nycrc
+example.js
+test1Test.test.js
+test1
