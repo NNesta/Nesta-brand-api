@@ -18,6 +18,10 @@ const schema = mongoose.Schema({
   minlength:4,
  
   },
+  cloudinary_id:{
+    type:String,
+    required: false
+  },
   articleDetail: {
     type:String,
   required:true,
@@ -36,10 +40,7 @@ const schema = mongoose.Schema({
   updated: {
     type: Date,
     default: () => Date.now(),
-  },
-  comments: [],
-  likes: { type: Number, default: 0 },
-  disLikes: { type: Number, default: 0 },
+  }
 });
 export const Article = mongoose.model("Article",  schema);
 // module.exports = Article;

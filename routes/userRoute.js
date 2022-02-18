@@ -145,12 +145,14 @@ router.get("/user/:id", authenticateToken, isOwnerOrAdmin, async (req, res) => {
  *
  */
 router.post("/user", async (req, res) => {
+  console.log(req.body);
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const user = new User({
-    name: req.body.name,
+    firstName: req.body.firstName,
+    secondName: req.body.secondName,
     email: req.body.email,
     userStatus: req.body.userStatus,
-    location: { longitude: 1234, latitude: 1234 },
+    location: { longitude: req.body.longitude, latitude: req.body.latitude },
     password: hashedPassword,
   });
   try {
@@ -204,8 +206,11 @@ router.patch(
   async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
-      if (req.body.name) {
-        user.name = req.body.name;
+      if (req.body.firstName) {
+        user.name = req.body.firstName;
+      }
+      if (req.body.secondName) {
+        user.name = req.body.secondName;
       }
       if (req.body.email) {
         user.email = req.body.email;
@@ -295,9 +300,11 @@ router.delete(
  *
  */
 router.post("/login", passport.authenticate("local"), (req, res) => {
+  console.log(res.message);
+  console.log("tried to login");
   let user = {
     id: req.user._id,
-    name: req.user.name,
+    name: `${req.user.firstName} ${req.user.secondName}`,
     email: req.user.email,
     userStatus: req.user.userStatus,
   };

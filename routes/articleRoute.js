@@ -3,7 +3,18 @@ import { Article } from "../models/articles.js";
 import { authenticateToken, isAuthor, isAdmin } from "./userRoute.js";
 const router = express.Router();
 export { router as articleRoutes };
-
+import multer from "./utils/multer.js";
+import { fileUpload } from "./helper/fileUpload.js";
+import "dotenv/config";
+import cloudinary from "./utils/cloudinary.js";
+// const fileFilter = (req, file, cb) => {
+//     if (file.mimetype.startsWith("image")) {
+//         cb(null, true);
+//     } else {
+//         cb("invalid image file!", false);
+//     }
+// };
+// const uploads = multer({ storage, fileFilter });
 /**
  * @swagger
  * tags:
@@ -127,7 +138,7 @@ router.get("/article/:id", async (req, res) => {
     const article = await Article.findOne({ _id: req.params.id });
 
     res.send(article);
-  } catch(error) {
+  } catch (error) {
     res.status(404).send(error.message);
   }
 });
@@ -160,27 +171,59 @@ router.get("/article/:id", async (req, res) => {
  *                        $ref: '#/components/schemas/Article'
  *         500:
  *            description: Server Error
- *              
- *        
+ *
+ *
  */
-
+//  const uploader = async (path) => await cloudinary(path, 'Images');
+//  if(req.method === 'POST'){
+//    const urls = [];
+//    const files = req.files;
+//    for(const file of files){
+//      const {path} = file;
+//      const newPath = await uploader(path);
+//      urls.push(newPath);
+//      fs.unlinkSync(path)
+//    }
+//    res.status(200).json({
+//      message:"Image uploaded successfully",
+//      data = urls
+//    })
+//  } {
+//    res.status(405).json({
+// err: `${req.method} method is not allowed `
+//    })
+//  }
 router.post("/article", authenticateToken, isAuthor, async (req, res) => {
+  let image = "";
+
+  if (req.body.picture) {
+    try {
+      image = await cloudinary.uploader.upload(req.body.picture);
+    } catch (error) {
+      console.log(error);
+    }
+  } 
+  else {
+    image =
+      "https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/";
+  }
   const article = new Article({
     title: req.body.title,
-    author: req.body.author,
-    picture: req.body.picture,
+    author: req.user.name,
+    picture: image.url,
+    cloudinary_id: image.public_id,
     articleDetail: req.body.articleDetail,
     tag: req.body.tag,
-    comments: [],
-    likes: 0,
-    disLikes: 0,
   });
+  console.log(article);
   try {
-    await article.save();
+    let a = await article.save();
+    console.log(a);
     res.send(article);
   } catch (error) {
     res.status(400);
-    res.send(error.message);
+    console.log(error);
+    res.send(error);
   }
 });
 // updating an article route
@@ -226,9 +269,7 @@ router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
     if (req.body.picture) {
       article.picture = req.body.picture;
     }
-    if (req.body.author) {
-      article.author = req.body.author;
-    }
+
     if (req.body.articleDetail) {
       article.articleDetail = req.body.articleDetail;
     }
@@ -270,12 +311,12 @@ router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
  *                     properties:
  *                         comment:
  *                            type: String
- *                            description: The comment on the article       
- *                 
+ *                            description: The comment on the article
+ *
  *   responses:
  *       200:
  *         description: The article was successfully commented on
- *         
+ *
  *       404:
  *         description: The article with that id was not found
  *       500:
@@ -329,7 +370,7 @@ router.delete("/article/:id", authenticateToken, isAuthor, async (req, res) => {
   try {
     await Article.deleteOne({ _id: req.params.id });
     res.status(204).send();
-  } catch(error) {
+  } catch (error) {
     res.status(404).send(error.message);
   }
 });

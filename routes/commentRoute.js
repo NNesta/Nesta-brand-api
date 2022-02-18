@@ -61,7 +61,7 @@ export { router as commentRoutes };
 
 /**
  * @swagger
- * /api/comment:
+ * /api/comments:
  *    get:
  *      tags: [Comment]
  *      summary: Returns all the comments
@@ -144,7 +144,7 @@ router.get("/comment/:id", async (req, res) => {
  *
  */
 router.post("/comment/:id", authenticateToken, async (req, res) => {
-// router.post("/comment/:id", async (req, res) => {
+  // router.post("/comment/:id", async (req, res) => {
   console.log(req.user);
   const comment = new Comment({
     articleId: req.params.id,
@@ -152,7 +152,7 @@ router.post("/comment/:id", authenticateToken, async (req, res) => {
     commentor: req.user.name,
     comment: req.body.comment,
   });
-  console.log(comment)
+  console.log(comment);
   try {
     await comment.save();
     console.log("comment saved");
