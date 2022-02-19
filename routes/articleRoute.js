@@ -3,8 +3,6 @@ import { Article } from "../models/articles.js";
 import { authenticateToken, isAuthor, isAdmin } from "./userRoute.js";
 const router = express.Router();
 export { router as articleRoutes };
-import multer from "./utils/multer.js";
-import { fileUpload } from "./helper/fileUpload.js";
 import "dotenv/config";
 import cloudinary from "./utils/cloudinary.js";
 // const fileFilter = (req, file, cb) => {
@@ -142,6 +140,40 @@ router.get("/article/:id", async (req, res) => {
     res.status(404).send(error.message);
   }
 });
+//  getting specificauthor article route
+
+/**
+ * @swagger
+ * /api/article/{id_author}:
+ *  get:
+ *   summary: get the article by id
+ *   tags: [Article]
+ *   parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *           type: string
+ *        required: true
+ *        description: article Id
+ *   responses:
+ *       200:
+ *         description: The article was successfully retrieved
+ *         contents:
+ *            application/json:
+ *                schema:
+ *                   $ref: '#/components/schemas/Article'
+ *       404:
+ *         description: The article with that id was not found
+ */
+router.get("/article/:id", async (req, res) => {
+  try {
+    const article = await Article.findOne({ _id: req.params.id });
+
+    res.send(article);
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
+});
 // create an article
 /**
  * @swagger
@@ -174,42 +206,28 @@ router.get("/article/:id", async (req, res) => {
  *
  *
  */
-//  const uploader = async (path) => await cloudinary(path, 'Images');
-//  if(req.method === 'POST'){
-//    const urls = [];
-//    const files = req.files;
-//    for(const file of files){
-//      const {path} = file;
-//      const newPath = await uploader(path);
-//      urls.push(newPath);
-//      fs.unlinkSync(path)
-//    }
-//    res.status(200).json({
-//      message:"Image uploaded successfully",
-//      data = urls
-//    })
-//  } {
-//    res.status(405).json({
-// err: `${req.method} method is not allowed `
-//    })
-//  }
+
 router.post("/article", authenticateToken, isAuthor, async (req, res) => {
   let image = "";
 
   if (req.body.picture) {
     try {
-      image = await cloudinary.uploader.upload(req.body.picture);
+      image = await cloudinary.uploader.upload(req.body.picture, {
+        upload_preset: "article_picture",
+      });
+      console.log(image);
     } catch (error) {
       console.log(error);
     }
-  } 
-  else {
-    image =
-      "https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/";
+  } else {
+    image = {
+      url: "https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/",
+      public_id: "",
+    };
   }
   const article = new Article({
     title: req.body.title,
-    author: req.user.name,
+    author: req.user,
     picture: image.url,
     cloudinary_id: image.public_id,
     articleDetail: req.body.articleDetail,
@@ -261,15 +279,31 @@ router.post("/article", authenticateToken, isAuthor, async (req, res) => {
  *         description: Server Error
  */
 router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
+  
+  const article = await Article.findById(req.params.id);
+
   try {
     const article = await Article.findById(req.params.id);
     if (req.body.title) {
       article.title = req.body.title;
     }
     if (req.body.picture) {
-      article.picture = req.body.picture;
+      
+      if(article.cloudinary_id){
+        try {
+          
+          await cloudinary.uploader.destroy(article.cloudinary_id, (result) => { console.log(result)})
+          const image = await cloudinary.uploader.upload(req.body.picture, {
+                upload_preset: "article_picture",
+              }); 
+              article.picture = image.url ||"https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/";
+              article.cloudinary_id = image.public_id 
+            }
+            catch (error) {
+          res.status(404).send(error.message);
+        }
     }
-
+  }
     if (req.body.articleDetail) {
       article.articleDetail = req.body.articleDetail;
     }
@@ -367,6 +401,16 @@ router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
  *         description: The article with that id was not found
  */
 router.delete("/article/:id", authenticateToken, isAuthor, async (req, res) => {
+  const article = await Article.findOne({ _id: req.params.id });
+  if(article.cloudinary_id){
+  try {
+    
+    await cloudinary.uploader.destroy(article.cloudinary_id, (result) => {
+      console.log(result);
+    });
+  } catch (error) {
+    res.status(404).send(error.message);
+  }}
   try {
     await Article.deleteOne({ _id: req.params.id });
     res.status(204).send();

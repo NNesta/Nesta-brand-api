@@ -152,7 +152,7 @@ router.post("/user", async (req, res) => {
     secondName: req.body.secondName,
     email: req.body.email,
     userStatus: req.body.userStatus,
-    location: { longitude: req.body.longitude, latitude: req.body.latitude },
+    location: { longitude: req.body.longitude || 0, latitude: req.body.latitude || 0 },
     password: hashedPassword,
   });
   try {

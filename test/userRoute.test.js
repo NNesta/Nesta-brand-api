@@ -10,7 +10,8 @@ chai.use(chaiHttp);
 describe("POST /api/user", () => {
   it("It should create a new user", (done) => {
     const user = {
-      name: "Tuyizere Alphonse",
+      firstName: "Tuyizere",
+      secondName: "Alphonse",
       email: "tuyiste12@gmail.com",
       password: "hsgxs121d",
       userStatus: 2
@@ -22,7 +23,6 @@ describe("POST /api/user", () => {
         response.should.have.status(200);
         response.body.should.be.a("object");
         response.body.should.have.property("_id");
-        response.body.should.have.property("name").eq("Tuyizere Alphonse");
         response.body.should.have.property("email").eq("tuyiste12@gmail.com");
         response.body.should.have.property("password");
         response.body.should.have.property("__v").eq(0);
@@ -33,7 +33,8 @@ describe("POST /api/user", () => {
   });
   it("It should not create a new user because the email already exist", (done) => {
     const user = {
-      name: "Tuyizere Alphonse",
+      firstName: "Tuyizere",
+      secondName: "Alphonse",
       email: "tuyiste12@gmail.com",
       password: "hsgxs121d",
       userStatus: 2
@@ -135,7 +136,6 @@ describe("POST /api/login", () => {
           response.should.have.status(200);
           response.body.should.be.a("object");
           response.body.should.have.property("_id");
-          response.body.should.have.property("name");
           response.body.should.have.property("email");
           response.body.should.have.property("password");
 
@@ -170,7 +170,8 @@ describe("POST /api/login", () => {
   describe("PATCH /api/user/:id", () => {
     it("It should update an user", (done) => {
       const user = {
-        name: "Tuyizere Alpha",
+        firstName: "Tuyizere",
+        secondName: "Alphonse",
         email: "tuyiste123@gmail.com",
         password: "hsgxs121d",
       };
@@ -183,7 +184,6 @@ describe("POST /api/login", () => {
           response.should.have.status(200);
           response.body.should.be.a("object");
           response.body.should.have.property("_id");
-          response.body.should.have.property("name").eq("Tuyizere Alpha");
           response.body.should.have.property("email").eq("tuyiste123@gmail.com");
           response.body.should.have.property("password");
 

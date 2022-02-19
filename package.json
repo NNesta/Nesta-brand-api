@@ -7,8 +7,8 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "nodemon --exec npm start",
-    "test": "nyc --reporter=text --all mocha --timeout 1000000 --exit",
-    "test:coverage": "npm test -- --coverage",
+    "test": "mocha --timeout 10000 --exit",
+    "coverage": "nyc test",
     "test:badges": "npm run test:coverage  && jest-coverage-badges"
   },
   "keywords": [],
