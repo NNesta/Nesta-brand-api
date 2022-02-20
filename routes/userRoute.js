@@ -218,6 +218,9 @@ router.patch(
       if (req.body.password) {
         user.password = req.body.password;
       }
+      if (req.body.userStatus) {
+        user.userStatus = req.body.userStatus;
+      }
 
       await user.save();
       res.json(user);
