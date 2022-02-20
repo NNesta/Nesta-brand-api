@@ -207,10 +207,10 @@ router.patch(
     try {
       const user = await User.findById(req.params.id);
       if (req.body.firstName) {
-        user.name = req.body.firstName;
+        user.firstName = req.body.firstName;
       }
       if (req.body.secondName) {
-        user.name = req.body.secondName;
+        user.secondName = req.body.secondName;
       }
       if (req.body.email) {
         user.email = req.body.email;
@@ -221,7 +221,9 @@ router.patch(
       if (req.body.userStatus) {
         user.userStatus = req.body.userStatus;
       }
-
+      console.log(req.body)
+      console.log(user)
+      
       await user.save();
       res.json(user);
     } catch (error) {
