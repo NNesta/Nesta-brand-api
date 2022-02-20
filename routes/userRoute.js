@@ -221,8 +221,7 @@ router.patch(
       if (req.body.userStatus) {
         user.userStatus = req.body.userStatus;
       }
-      console.log(req.body)
-      console.log(user)
+      
       
       await user.save();
       res.json(user);
@@ -315,7 +314,7 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
     userStatus: req.user.userStatus,
   };
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-  res.status(200).json({ accessToken: accessToken });
+  res.status(200).json({ accessToken: accessToken, userStatus: req.user.userStatus });
 });
 
 export function authenticateToken(req, res, next) {
