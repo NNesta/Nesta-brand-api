@@ -82,11 +82,43 @@ router.get("/like", async (req, res) => {
   res.send(likes);
 });
 
-//  getting individual like route
+// //  getting individual like route
 
+// /**
+//  * @swagger
+//  * /api/like/{id}:
+//  *  get:
+//  *   summary: get the like by id
+//  *   tags: [Like]
+//  *   parameters:
+//  *      - in: path
+//  *        name: id
+//  *        schema:
+//  *           type: string
+//  *        required: true
+//  *        description: like Id
+//  *   responses:
+//  *       200:
+//  *         description: The like was successfully retrieved
+//  *         contents:
+//  *            application/json:
+//  *                schema:
+//  *                   $ref: '#/components/schemas/Like'
+//  *       404:
+//  *         description: The like with that id was not found
+//  */
+// router.get("/like/:id", authenticateToken, isAdmin, async (req, res) => {
+//   try {
+//     const like = await Like.findOne({ _id: req.params.id });
+
+//     res.send(like);
+//   } catch {
+//     res.status(404).send({ error: "this like does not exist" });
+//   }
+// });
 /**
  * @swagger
- * /api/like/{id}:
+ * /api/like/{article_id}:
  *  get:
  *   summary: get the like by id
  *   tags: [Like]
@@ -107,12 +139,48 @@ router.get("/like", async (req, res) => {
  *       404:
  *         description: The like with that id was not found
  */
-router.get("/like/:id", authenticateToken, isAdmin, async (req, res) => {
+router.get("/like/:article_id",  async (req, res) => {
   try {
-    const like = await Like.findOne({ _id: req.params.id });
+    const like = await Like.find({articleId: req.params.article_id });
 
     res.send(like);
   } catch {
+    res.status(404).send({ error: "this like does not exist" });
+  }
+});
+/**
+ * @swagger
+ * /api/like/{article_id}/{user_id}:
+ *  get:
+ *   summary: get the like by id
+ *   tags: [Like]
+ *   parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *           type: string
+ *        required: true
+ *        description: like Id
+ *   responses:
+ *       200:
+ *         description: The like was successfully retrieved
+ *         contents:
+ *            application/json:
+ *                schema:
+ *                   $ref: '#/components/schemas/Like'
+ *       404:
+ *         description: The like with that id was not found
+ */
+router.get("/like/:article_id/:user_id",async (req, res) => {
+  try {
+    const like = await Like.findOne({ articleId: req.params.article_id, userId: req.params.user_id });
+    if(like){
+      res.send({liked:true})
+    }else res.send({liked:false})
+    console.log(like)
+
+  } catch(error) {
+    console.log(error)
     res.status(404).send({ error: "this like does not exist" });
   }
 });
@@ -182,7 +250,38 @@ router.post("/like/:id", authenticateToken, async (req, res) => {
  *       404:
  *         description: The like with that id was not found
  */
-router.delete("/like/:id", authenticateToken, isAdmin, async (req, res) => {
+router.delete("/like/:article_id/:user_id", async (req, res) => {
+  try {
+    await Like.deleteOne({ article_id: req.params.article_id, userId: req.params.user_id});
+    res.status(204).send();
+  } catch {
+    res.status(404).send({ error: "That like does not exist " });
+  }
+});
+/**
+ * @swagger
+ * /api/like/{id}:
+ *  delete:
+ *   summary: delete the like by id
+ *   tags: [Like]
+ *   parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *           type: string
+ *        required: true
+ *        description: like Id
+ *   responses:
+ *       204:
+ *         description: The like was successfully deleted
+ *         contents:
+ *            application/json:
+ *                schema:
+ *                   $ref: '#/components/schemas/Like'
+ *       404:
+ *         description: The like with that id was not found
+ */
+router.delete("/like/:id", async (req, res) => {
   try {
     await Like.deleteOne({ _id: req.params.id });
     res.status(204).send();

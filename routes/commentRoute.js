@@ -82,11 +82,44 @@ router.get("/comments", async (req, res) => {
   res.send(comments);
 });
 
-//  getting individual comment route
+// //  getting individual comment route
 
+// /**
+//  * @swagger
+//  * /api/comment/{id}:
+//  *  get:
+//  *   summary: get the comment by id
+//  *   tags: [Comment]
+//  *   parameters:
+//  *      - in: path
+//  *        name: id
+//  *        schema:
+//  *           type: string
+//  *        required: true
+//  *        description: comment Id
+//  *   responses:
+//  *       200:
+//  *         description: The comment was successfully retrieved
+//  *         contents:
+//  *            application/json:
+//  *                schema:
+//  *                   $ref: '#/components/schemas/Comment'
+//  *       404:
+//  *         description: The comment with that id was not found
+//  */
+// // router.get("/comment/:id", authenticateToken, isAdmin, async (req, res) => {
+// router.get("/comment/:id", async (req, res) => {
+//   try {
+//     const comment = await Comment.findOne({ _id: req.params.id });
+
+//     res.send(comment);
+//   } catch {
+//     res.status(404).send({ error: "this comment does not exist" });
+//   }
+// });
 /**
  * @swagger
- * /api/comment/{id}:
+ * /api/comment/{article_id}:
  *  get:
  *   summary: get the comment by id
  *   tags: [Comment]
@@ -108,13 +141,13 @@ router.get("/comments", async (req, res) => {
  *         description: The comment with that id was not found
  */
 // router.get("/comment/:id", authenticateToken, isAdmin, async (req, res) => {
-router.get("/comment/:id", async (req, res) => {
+router.get("/comment/:article_id", async (req, res) => {
   try {
-    const comment = await Comment.findOne({ _id: req.params.id });
+    const comment = await Comment.find({ articleId: req.params.article_id });
 
     res.send(comment);
   } catch {
-    res.status(404).send({ error: "this comment does not exist" });
+    res.status(404).send({ error: "That article has not yet have comments" });
   }
 });
 // create a new comment

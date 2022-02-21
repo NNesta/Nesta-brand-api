@@ -314,7 +314,7 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
     userStatus: req.user.userStatus,
   };
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-  res.status(200).json({ accessToken: accessToken, userStatus: req.user.userStatus, userId:req.user.id });
+  res.status(200).json({ accessToken: accessToken, userId: user.id, name:user.name, email:user.email, userStatus: user.userStatus});
 });
 
 export function authenticateToken(req, res, next) {
