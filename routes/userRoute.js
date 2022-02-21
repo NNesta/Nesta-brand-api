@@ -224,7 +224,11 @@ router.patch(
       
       
       await user.save();
+      console.log(user)
+      res.status(200)
       res.json(user);
+
+      
     } catch (error) {
       res.status(400);
       res.send(error.message);
