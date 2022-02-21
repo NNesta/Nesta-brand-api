@@ -14,7 +14,7 @@ describe("POST /api/user", () => {
       secondName: "Alphonse",
       email: "tuyiste12@gmail.com",
       password: "hsgxs121d",
-      userStatus: 2
+      userStatus: 3
     };
     chai.request(server)
       .post("/api/user")
@@ -37,7 +37,7 @@ describe("POST /api/user", () => {
       secondName: "Alphonse",
       email: "tuyiste12@gmail.com",
       password: "hsgxs121d",
-      userStatus: 2
+      userStatus: 3
     };
     chai.request(server)
       .post("/api/user")

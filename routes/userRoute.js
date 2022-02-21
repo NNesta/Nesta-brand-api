@@ -334,16 +334,16 @@ export function authenticateToken(req, res, next) {
   });
 }
 export function isAuthor(req, res, next) {
-  if (req.user.userStatus < 1) return res.status(403).send("Unauthorized");
+  if (req.user.userStatus < 2) return res.status(403).send("Unauthorized");
   next();
 }
 export function isAdmin(req, res, next) {
   //console.log(req.user);
-  if (req.user.userStatus < 2) return res.status(403).send("Unauthorized");
+  if (req.user.userStatus < 3) return res.status(403).send("Unauthorized");
   next();
 }
 export function isOwnerOrAdmin(req, res, next) {
-  if (req.user.userStatus >= 2 || req.user.id == req.params.id) next();
+  if (req.user.userStatus >= 3 || req.user.id == req.params.id) next();
   else {
     return res.status(403).send("Unauthorized");
   }
