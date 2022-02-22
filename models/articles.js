@@ -23,9 +23,9 @@ const schema = mongoose.Schema({
     required: false
   },
   articleDetail: {
-    type:String,
-  required:true,
-  minlength:5,
+    required:true,
+  minlength:4,
+  maxlenth:1000,
    text: true
   },
   tag: {
