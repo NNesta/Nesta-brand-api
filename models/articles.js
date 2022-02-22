@@ -4,14 +4,14 @@ const schema = mongoose.Schema({
   type:String,
   required:true,
   minlength:4,
-  maxlenth:50,
+  maxlength:50,
    text: true
   },
   author: {
     type:Object,
   required:true,
   minlength:4,
-  maxlenth:30
+  maxlength:30
   },
   picture: {
     type:String,
@@ -25,14 +25,14 @@ const schema = mongoose.Schema({
   articleDetail: {
     required:true,
   minlength:4,
-  maxlenth:1000,
+  maxlength:10000,
    text: true
   },
   tag: {
     type:String,
   required:true,
   minlength:4,
-  maxlenth:20,
+  maxlength:20,
   text: true
   },
   created: {
