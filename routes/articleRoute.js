@@ -292,23 +292,25 @@ router.patch("/article/:id", authenticateToken, isAuthor, async (req, res) => {
     if (req.body.title) {
       article.title = req.body.title;
     }
+    
     if (req.body.picture) {
       
-      if(article.cloudinary_id){
+     
         try {
-          
+           if(article.cloudinary_id){
           await cloudinary.uploader.destroy(article.cloudinary_id, (result) => { console.log(result)})
+        }
           const image = await cloudinary.uploader.upload(req.body.picture, {
                 upload_preset: "article_picture",
               }); 
-              article.picture = image.url ||"https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/";
-              article.cloudinary_id = image.public_id 
+              article.picture = image.url ;
+              article.cloudinary_id = image.public_id
             }
             catch (error) {
           res.status(404).send(error.message);
         }
     }
-  }
+  
     if (req.body.articleDetail) {
       article.articleDetail = req.body.articleDetail;
     }

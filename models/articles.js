@@ -27,13 +27,13 @@ const schema = mongoose.Schema({
   articleDetail: {
     type:String,
   required:true,
-  minlength:5
+  minlength:5,
 
   },
   tag: {
     type:String,
     required:true,
-    minlength:4,
+    minlength:2,
     maxlength:15,
      text: true
   },
