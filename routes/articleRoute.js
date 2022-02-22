@@ -131,13 +131,18 @@ router.get("/article", async (req, res) => {
  *       404:
  *         description: The article with that id was not found
  */
-router.get("/article/:id", async (req, res) => {
+router.get("/article/search/:searchQuery", async (req, res) => {
   try {
-    const article = await Article.findOne({ _id: req.params.id });
+    const article = await Article.find( { $text: { $search: req.params.searchQuery} }
+  );
+  
+  console.log(article)
 
     res.send(article);
+   
   } catch (error) {
-    res.status(404).send(error.message);
+    console.log(error);
+     res.status(404).send(error.message);
   }
 });
 //  getting specificauthor article route

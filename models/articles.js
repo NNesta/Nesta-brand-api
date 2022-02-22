@@ -4,7 +4,8 @@ const schema = mongoose.Schema({
   type:String,
   required:true,
   minlength:4,
-  maxlenth:50
+  maxlenth:50,
+   text: true
   },
   author: {
     type:Object,
@@ -15,8 +16,7 @@ const schema = mongoose.Schema({
   picture: {
     type:String,
   required:true,
-  minlength:4,
- 
+  minlength:4
   },
   cloudinary_id:{
     type:String,
@@ -25,13 +25,15 @@ const schema = mongoose.Schema({
   articleDetail: {
     type:String,
   required:true,
-  minlength:5
+  minlength:5,
+   text: true
   },
   tag: {
     type:String,
   required:true,
   minlength:4,
-  maxlenth:20
+  maxlenth:20,
+  text: true
   },
   created: {
     type: Date,
