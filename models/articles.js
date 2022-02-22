@@ -10,30 +10,32 @@ const schema = mongoose.Schema({
   author: {
     type:Object,
   required:true,
-  minlength:4,
-  maxlength:30
+
   },
   picture: {
     type:String,
   required:true,
-  minlength:4
+  minlength:4,
+
+ 
   },
   cloudinary_id:{
     type:String,
-    required: false
+    required: false,
+
   },
   articleDetail: {
-    required:true,
-  minlength:4,
-  maxlength:10000,
-   text: true
+    type:String,
+  required:true,
+  minlength:5
+
   },
   tag: {
     type:String,
-  required:true,
-  minlength:4,
-  maxlength:20,
-  text: true
+    required:true,
+    minlength:4,
+    maxlength:15,
+     text: true
   },
   created: {
     type: Date,
